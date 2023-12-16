@@ -1,9 +1,9 @@
 const tasks = [
-    { name: "Recoger setas en el campo", completed: true },
-    { name: "Comprar pilas", completed: true },
-    { name: "Poner una lavadora de blancos", completed: true },
+    { name: "Recoger setas en el campo", id:"1657692730126289", completed: true },
+    { name: "Comprar pilas", id:"16576927301283248", completed: true },
+    { name: "Poner una lavadora de blancos", id:"16576927301315832", completed: true },
     {
-      name: "Aprender cómo se realizan las peticiones al servidor en JavaScript",
+      name: "Aprender cómo se realizan las peticiones al servidor en JavaScript", id:"16576927301332268",
       completed: false,
     },
   ];
@@ -16,15 +16,15 @@ const filterTaskBtn = document.querySelector(".js__main__btn__filter");
 const taskList = document.querySelector(".js__main__tasks__list");
 
 //Variable con información fija
-let tasks = [];
+//let tasks = [];
 
 
-fetch("https://dev.adalab.es/api/todo")
-  .then((response) => response.json())
-  .then((data) => {
-    tasks = data.results;
-    renderAllTasks(tasks);
-  });
+//fetch("https://dev.adalab.es/api/todo")
+  //.then((response) => response.json())
+  //.then((data) => {
+    //tasks = data.results;
+    //renderAllTasks(tasks);
+  //});
 
 
 //FUNCIONES
@@ -74,7 +74,7 @@ function handleClickCheckbox(event) {
   // cambiar allí la información y volver a pintar todos los datos
   // en la página.
   // Obtengo el dato "gancho" del HTML:
-  const idTask = parseInt(event.target.id); //dato gancho
+  const idTask = event.target.id; //dato gancho
   //   El "dato gancho" es aquel que pongo en el HTML al renderizarlo
   // que me permite identificar el objeto en el array de objetos
   // que corresponde en la tarea clickada.
@@ -109,13 +109,13 @@ function handleFilterTask(event){
 taskList.addEventListener("click", handleClickCheckbox);
 
 // Agregar una tarea al hacer clic en el botón "Agregar"
-addTaskBtn.addEventListener("click", handleTask);
+//addTaskBtn.addEventListener("click", handleTask);
 
 // Agregar una tarea al presionar la tecla "Enter" en el campo de entrada
-taskInput.addEventListener("keyup", handleTaskKey);
+//taskInput.addEventListener("keyup", handleTaskKey);
 
 //filtrar
-filterTaskBtn.addEventListener("click", handleFilterTask);
+//filterTaskBtn.addEventListener("click", handleFilterTask);
 
-
+renderAllTasks(tasks)
 
