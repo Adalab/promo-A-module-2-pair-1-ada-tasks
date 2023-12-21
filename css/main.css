@@ -110,3 +110,7 @@ li button {
     text-decoration: line-through;
 
 } 
+.main__toDo {
+    display: flex;
+    flex-direction: row;
+}

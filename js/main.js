@@ -1,11 +1,17 @@
-const tasks = [
-    { name: "Recoger setas en el campo", id:"1657692730126289", completed: true },
-    { name: "Comprar pilas", id:"16576927301283248", completed: true },
-    { name: "Poner una lavadora de blancos", id:"16576927301315832", completed: true },
-    {
-      name: "Aprender cómo se realizan las peticiones al servidor en JavaScript", id:"16576927301332268",
-      completed: false,
-    },
+let tasks = [ 
+  fetch("https://dev.adalab.es/api/todo")
+    .then((response) => response.json())
+    .then((data) => {
+      tasks = data.results;
+      renderAllTasks(tasks);
+    })
+    //{ name: "Recoger setas en el campo", id:"1657692730126289", completed: true },
+    //{ name: "Comprar pilas", id:"16576927301283248", completed: true },
+    //{ name: "Poner una lavadora de blancos", id:"16576927301315832", completed: true },
+    //{
+      //name: "Aprender cómo se realizan las peticiones al servidor en JavaScript", id:"16576927301332268",
+      //completed: false,
+    //},
   ];
 const taskInput = document.querySelector(".js__main__text__tasks__add");
 const taskFilter = document.querySelector(".js__main__text__tasks__filter");
@@ -15,16 +21,12 @@ const filterTaskBtn = document.querySelector(".js__main__btn__filter");
 
 const taskList = document.querySelector(".js__main__tasks__list");
 
+const GITHUB_USER = '<tu_usuario_de_github_aqui>';
+const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
 //Variable con información fija
 //let tasks = [];
 
 
-//fetch("https://dev.adalab.es/api/todo")
-  //.then((response) => response.json())
-  //.then((data) => {
-    //tasks = data.results;
-    //renderAllTasks(tasks);
-  //});
 
 
 //FUNCIONES
@@ -59,13 +61,38 @@ const renderOneTask = (task) => {
     </li>`;
   }
 };
+ 
+function actualizarInfoTareas() {
+  const totalTareas = document.querySelector('.js__main__toDo').textContent;
+  const tareasCompletadas = document.querySelector('.js__main__done').textContent;
+  const tareasPendientes = document.querySelector('.js__main__undone').textContent;
 
+  const frase = `Tienes ${totalTareas} tareas. ${tareasCompletadas} completadas y ${tareasPendientes} por realizar.`;
+
+  const fraseTareas = document.createElement('div');
+  fraseTareas.textContent = frase;
+
+  const contenedorTareas = document.querySelector('.main__toDo');
+  contenedorTareas.insertBefore(fraseTareas, contenedorTareas.firstChild);
+}
+
+// Llamada a la función cuando se carga la página para inicializar la frase
+document.addEventListener('DOMContentLoaded', function() {
+  actualizarInfoTareas();
+});
 const renderAllTasks = (tasks) => {
   taskList.innerHTML = "";
-  for (const eachTask of tasks) {
+  let completadas = 0
+  for (const eachTask of tasks) { 
+    console.log(eachTask.completed)
+    if (eachTask.completed){completadas++}
     renderOneTask(eachTask);
   }
+  console.log (completadas)
 };
+
+
+
 
 function handleClickCheckbox(event) {
   //   Pero para aplicaciones más grandes que una lista de tareas
@@ -74,7 +101,8 @@ function handleClickCheckbox(event) {
   // cambiar allí la información y volver a pintar todos los datos
   // en la página.
   // Obtengo el dato "gancho" del HTML:
-  const idTask = event.target.id; //dato gancho
+  const idTask = parseInt (event.target.id)
+  console.log (idTask)//dato gancho
   //   El "dato gancho" es aquel que pongo en el HTML al renderizarlo
   // que me permite identificar el objeto en el array de objetos
   // que corresponde en la tarea clickada.
@@ -109,13 +137,11 @@ function handleFilterTask(event){
 taskList.addEventListener("click", handleClickCheckbox);
 
 // Agregar una tarea al hacer clic en el botón "Agregar"
-//addTaskBtn.addEventListener("click", handleTask);
+addTaskBtn.addEventListener("click", handleTask);
 
 // Agregar una tarea al presionar la tecla "Enter" en el campo de entrada
 //taskInput.addEventListener("keyup", handleTaskKey);
 
 //filtrar
-//filterTaskBtn.addEventListener("click", handleFilterTask);
-
-renderAllTasks(tasks)
+filterTaskBtn.addEventListener("click", handleFilterTask);
 
